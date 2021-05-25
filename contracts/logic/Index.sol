@@ -22,9 +22,9 @@ library Index {
     view
     returns (uint256)
   {
-    uint40 lastUpdateTimestamp = reserve.lastUpdateTimestamp;
+    uint256 lastUpdateTimestamp = reserve.lastUpdateTimestamp;
 
-    if (lastUpdateTimestamp == uint40(block.timestamp)) {
+    if (lastUpdateTimestamp == block.timestamp) {
       return reserve.lTokenInterestIndex;
     }
 
@@ -41,9 +41,9 @@ library Index {
     view
     returns (uint256)
   {
-    uint40 lastUpdateTimestamp = reserve.lastUpdateTimestamp;
+    uint256 lastUpdateTimestamp = reserve.lastUpdateTimestamp;
 
-    if (lastUpdateTimestamp == uint40(block.timestamp)) {
+    if (lastUpdateTimestamp == block.timestamp) {
       return reserve.dTokenInterestIndex;
     }
 
@@ -65,9 +65,9 @@ library Index {
     view
     returns (uint256)
   {
-    uint40 lastUpdateTimestamp = assetBond.lastUpdateTimestamp;
+    uint256 lastUpdateTimestamp = assetBond.lastUpdateTimestamp;
 
-    if (lastUpdateTimestamp == uint40(block.timestamp)) {
+    if (lastUpdateTimestamp == block.timestamp) {
       return assetBond.aTokenInterestIndex;
     }
 
@@ -83,7 +83,7 @@ library Index {
     uint256 implicitDTokenTotalSupply = IDToken(reserve.dTokenAddress).implicitTotalSupply();
     uint256 previousLTokenIndex = reserve.lTokenInterestIndex;
     uint256 previousDTokenIndex = reserve.dTokenInterestIndex;
-    uint40 lastUpdateTimestamp = reserve.lastUpdateTimestamp;
+    uint256 lastUpdateTimestamp = reserve.lastUpdateTimestamp;
 
     updateIndexes(
       reserve,
@@ -103,7 +103,7 @@ library Index {
    */
   function updateATokenState(DataStruct.AssetBondData storage assetBond) internal {
     assetBond.aTokenInterestIndex = getATokenInterestIndex(assetBond);
-    assetBond.lastUpdateTimestamp = uint40(block.timestamp);
+    assetBond.lastUpdateTimestamp = block.timestamp;
   }
 
   /**
@@ -119,19 +119,19 @@ library Index {
     uint256 implicitDTokenTotalSupply,
     uint256 lTokenIndex,
     uint256 dTokenIndex,
-    uint40 timeStamp
+    uint256 timeStamp
   ) internal returns (uint256, uint256) {
     uint256 currentSupplyAPR = reserve.supplyAPR;
 
     if (currentSupplyAPR == 0) {
-      reserve.lastUpdateTimestamp = uint40(block.timestamp);
+      reserve.lastUpdateTimestamp = block.timestamp;
       return (lTokenIndex, dTokenIndex);
     }
 
     reserve.lTokenInterestIndex = getLTokenInterestIndex(reserve);
     reserve.dTokenInterestIndex = getDTokenInterestIndex(reserve);
 
-    reserve.lastUpdateTimestamp = uint40(block.timestamp);
+    reserve.lastUpdateTimestamp = block.timestamp;
 
     return (reserve.lTokenInterestIndex, reserve.dTokenInterestIndex);
   }

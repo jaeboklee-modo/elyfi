@@ -66,7 +66,7 @@ library TokenizerData {
 
     tokenizerData.averageATokenAPR = vars.newAPR;
     tokenizerData.totalATokenBalanceOfMoneyPool = vars.newBalance;
-    tokenizerData.lastUpdateTimestamp = uint40(block.timestamp);
+    tokenizerData.lastUpdateTimestamp = block.timestamp;
 
     emit MoneyPoolATokenDataUpdated(tokenizerData.asset, aTokenId, vars.newAPR, vars.newBalance);
   }
@@ -113,7 +113,7 @@ library TokenizerData {
 
     tokenizerData.averageATokenAPR = vars.newAPR;
     tokenizerData.totalATokenBalanceOfMoneyPool = vars.newBalance;
-    tokenizerData.lastUpdateTimestamp = uint40(block.timestamp);
+    tokenizerData.lastUpdateTimestamp = block.timestamp;
 
     emit MoneyPoolATokenDataUpdated(tokenizerData.asset, aTokenId, vars.newAPR, vars.newBalance);
   }

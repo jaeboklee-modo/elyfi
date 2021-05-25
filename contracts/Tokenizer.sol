@@ -24,7 +24,6 @@ contract Tokenizer is ITokenizer, ERC1155Upgradeable, TokenizerStorage {
   using WadRayMath for uint256;
   using TokenizerData for DataStruct.TokenizerData;
   using AssetBond for DataStruct.AssetBondData;
-  using AssetBond for DataStruct.AssetBondData;
   using Index for DataStruct.AssetBondData;
 
   /************ Initialize Functions ************/
@@ -82,7 +81,9 @@ contract Tokenizer is ITokenizer, ERC1155Upgradeable, TokenizerStorage {
       );
 
     console.log(
-      'tokenizer: totalATokenBalanceOfMoneyPool:',
+      'tokenizer: timeDiff, totalATokenBalanceOfMoneyPool:',
+      _tokenizerData.totalATokenBalanceOfMoneyPool,
+      block.timestamp - _tokenizerData.lastUpdateTimestamp,
       _tokenizerData.totalATokenBalanceOfMoneyPool.rayMul(accruedInterest)
     );
 

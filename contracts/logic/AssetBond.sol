@@ -40,7 +40,7 @@ library AssetBond {
     assetBondData.dueDate = dueDate;
     assetBondData.ipfsHash = ipfsHash;
     assetBondData.collateralValue = collateralValue;
-    assetBondData.lastUpdateTimestamp = uint40(block.timestamp);
+    assetBondData.lastUpdateTimestamp = block.timestamp;
     assetBondData.state = DataStruct.AssetBondState.SETTLED;
   }
 
@@ -62,7 +62,7 @@ library AssetBond {
     // set bond date data
     assetBondData.borrowAPR = realAssetAPR;
     assetBondData.aTokenInterestIndex = WadRayMath.RAY;
-    assetBondData.lastUpdateTimestamp = uint40(block.timestamp);
+    assetBondData.lastUpdateTimestamp = block.timestamp;
     assetBondData.state = DataStruct.AssetBondState.COLLATERALIZED;
     assetBondData.issuanceDate = block.timestamp;
     assetBondData.maturityDate = block.timestamp + (assetBondData.dueDate * 1 days);

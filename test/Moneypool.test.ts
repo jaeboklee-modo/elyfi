@@ -99,7 +99,7 @@ describe("MoneyPool", () => {
     })
 
     describe("Invest", async () => {
-        it("Invest moneypool for the first time", async () => {
+        xit("Invest moneypool for the first time", async () => {
             const amountInvest = expandToDecimals(10000, 18);
             await underlyingAsset.connect(account1).approve(moneyPool.address, RAY)
 
@@ -148,9 +148,24 @@ describe("MoneyPool", () => {
             expect(contractUserDataAfterInvest).to.be.equalUserData(expectedUserDataAfterInvest)
         })
 
-        it("Invests moneypool for the second time", async () => {
+        it("Invests moneypool for the second time after borrowing", async () => {
             const amountInvest = expandToDecimals(10000, 18);
             await underlyingAsset.connect(account1).approve(moneyPool.address, RAY)
+            await tokenizer.connect(CSP).mintABToken(CSP.address, exampleTokenId_1)
+
+            const firstInvestTx = await moneyPool.connect(account1).investMoneyPool(
+                underlyingAsset.address,
+                account1.address,
+                amountInvest
+            )
+            await moneyPool.connect(CSP).borrowAgainstABToken(
+                underlyingAsset.address,
+                receiver.address,
+                amountInvest.div(5),
+                exampleTokenId_1)
+
+            console.log("@@@@@",amountInvest.div(5).toString())
+            await advanceTime(1000)
 
             const contractReserveDataBeforeInvest = await getReserveData({
                 underlyingAsset: underlyingAsset,
@@ -202,7 +217,7 @@ describe("MoneyPool", () => {
         it("Withdraw without")
     })
 
-    describe("Borrow against asset bond", async () => {
+    xdescribe("Borrow against asset bond", async () => {
         const amountInvest = expandToDecimals(10000, 18);
 
         beforeEach(async () => {

@@ -2,6 +2,7 @@
 pragma solidity 0.8.4;
 
 import './WadRayMath.sol';
+import 'hardhat/console.sol';
 
 library Math {
   using WadRayMath for uint256;
@@ -10,7 +11,7 @@ library Math {
 
   function calculateLinearInterest(
     uint256 rate,
-    uint40 lastUpdateTimestamp,
+    uint256 lastUpdateTimestamp,
     uint256 currentTimestamp
   ) internal pure returns (uint256) {
     uint256 timeDelta = currentTimestamp - uint256(lastUpdateTimestamp);
@@ -33,7 +34,7 @@ library Math {
    **/
   function calculateCompoundedInterest(
     uint256 rate,
-    uint40 lastUpdateTimestamp,
+    uint256 lastUpdateTimestamp,
     uint256 currentTimestamp
   ) internal pure returns (uint256) {
     //solium-disable-next-line
@@ -63,12 +64,14 @@ library Math {
     uint256 totalBalance,
     uint256 amountIn,
     uint256 rate
-  ) internal pure returns (uint256, uint256) {
+  ) internal view returns (uint256, uint256) {
     uint256 weightedAverageRate = totalBalance.wadToRay().rayMul(averageRate);
     uint256 weightedAmountRate = amountIn.wadToRay().rayMul(rate);
 
     uint256 newTotalBalance = totalBalance + amountIn;
     uint256 newAverageRate = (weightedAverageRate + weightedAmountRate).rayDiv(newTotalBalance);
+
+    console.log('calculateIncreasingBalances', newTotalBalance, newAverageRate);
 
     return (newTotalBalance, newAverageRate);
   }

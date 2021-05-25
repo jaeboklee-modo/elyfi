@@ -285,7 +285,7 @@ contract MoneyPool is IMoneyPool, IERC1155ReceiverUpgradeable, MoneyPoolStorage 
         supplyAPR: 0,
         totalDepositedAssetBondCount: 0,
         maturedAssetBondCount: 0,
-        lastUpdateTimestamp: uint40(block.timestamp),
+        lastUpdateTimestamp: block.timestamp,
         lTokenAddress: lToken,
         dTokenAddress: dToken,
         interestModelAddress: interestModel,
@@ -311,6 +311,8 @@ contract MoneyPool is IMoneyPool, IERC1155ReceiverUpgradeable, MoneyPoolStorage 
 
     _reserveCount = reserveCount + 1;
   }
+
+  /************ Interface Functions ************/
 
   /**
         @dev Handles the receipt of a single ERC1155 token type. This function is
